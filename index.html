@@ -390,6 +390,135 @@ footer{
 </head>
 <body>
 
+  ```html
+<!-- Google Play Install Popup -->
+<div id="playPopup" class="popup-overlay">
+  <div class="popup-card">
+
+    <button id="closePopup" class="close-btn">&times;</button>
+
+    <img src="https://itbook24.github.io/Tasbih/icon.png"
+         alt="Tasbih Counter"
+         class="app-icon">
+
+    <h2>ইসলামিক তাসবীহ কাউন্টার</h2>
+
+    <p>Android অ্যাপটি আরও দ্রুত ও সহজে ব্যবহার করতে এখনই ইনস্টল করুন।</p>
+
+    <div class="countdown">
+      📲 <span id="count">10</span> সেকেন্ড পরে Play Store-এ নিয়ে যাওয়া হবে।
+    </div>
+
+  </div>
+</div>
+
+<style>
+.popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:99999;
+    padding:20px;
+}
+
+.popup-card{
+    position:relative;
+    background:#fff;
+    width:100%;
+    max-width:340px;
+    border-radius:18px;
+    padding:25px;
+    text-align:center;
+    font-family:Arial,sans-serif;
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.close-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#f2f2f2;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.close-btn:hover{
+    background:#ddd;
+}
+
+.app-icon{
+    width:90px;
+    height:90px;
+    border-radius:20px;
+    margin-bottom:15px;
+}
+
+.popup-card h2{
+    margin:0;
+    font-size:22px;
+}
+
+.popup-card p{
+    color:#666;
+    margin:10px 0;
+}
+
+.countdown{
+    margin-top:18px;
+    font-size:17px;
+    font-weight:bold;
+}
+</style>
+
+<script>
+const playStore = "https://play.google.com/store/apps/details?id=com.digital.tasbihcounter";
+
+let seconds = 10;
+let cancelled = false;
+
+const counter = document.getElementById("count");
+
+const timer = setInterval(() => {
+
+    if(cancelled){
+        clearInterval(timer);
+        return;
+    }
+
+    seconds--;
+    counter.textContent = seconds;
+
+    if(seconds <= 0){
+        clearInterval(timer);
+        window.location.href = playStore;
+    }
+
+},1000);
+
+document.getElementById("closePopup").onclick = function () {
+    cancelled = true;
+    clearInterval(timer);
+    document.getElementById("playPopup").style.display = "none";
+};
+
+document.getElementById("playPopup").onclick = function(e){
+    if(e.target === this){
+        cancelled = true;
+        clearInterval(timer);
+        this.style.display = "none";
+    }
+};
+</script>
+```
+
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
