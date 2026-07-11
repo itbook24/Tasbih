@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+<div id="redirect-box">
+  <p>
+    📲 Play Store-এ রিডাইরেক্ট করা হবে <b><span id="count">10</span></b> সেকেন্ডের মধ্যে...
+  </p>
+
+  <button id="cancel-btn">Cancel</button>
+</div>
+
+<script>
+let seconds = 10;
+let cancelled = false;
+
+const timer = setInterval(() => {
+    if (cancelled) {
+        clearInterval(timer);
+        return;
+    }
+
+    seconds--;
+    document.getElementById("count").textContent = seconds;
+
+    if (seconds <= 0) {
+        clearInterval(timer);
+        window.location.href = "https://play.google.com/store/apps/details?id=com.digital.tasbihcounter";
+    }
+}, 1000);
+
+document.getElementById("cancel-btn").addEventListener("click", function () {
+    cancelled = true;
+    document.getElementById("redirect-box").innerHTML =
+        "<p>✅ রিডাইরেক্ট বাতিল করা হয়েছে।</p>";
+});
+</script>
+
+  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -455,7 +490,7 @@ footer{
 
 <!-- BANNER -->
 <section class="banner-section">
-  <img src="https://i.ibb.co/TxDf5wH3/Banner.png" alt="banner">
+  <img src="https://itbook24.github.io/Tasbih/Tasbih-Counter.png" alt="banner">
   <div class="banner-overlay"></div>
 </section>
 
