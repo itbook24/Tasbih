@@ -390,23 +390,29 @@ footer{
 </head>
 <body>
 
-  ```html
-<!-- Google Play Install Popup -->
+ ```html
+<!-- ===== Play Store 3D Popup ===== -->
 <div id="playPopup" class="popup-overlay">
   <div class="popup-card">
 
-    <button id="closePopup" class="close-btn">&times;</button>
+    <button id="closePopup" class="close-btn" title="Close">&times;</button>
 
     <img src="https://itbook24.github.io/Tasbih/icon.png"
-         alt="Tasbih Counter"
+         alt="Islamic Tasbih Counter"
          class="app-icon">
 
     <h2>ইসলামিক তাসবীহ কাউন্টার</h2>
 
-    <p>Android অ্যাপটি আরও দ্রুত ও সহজে ব্যবহার করতে এখনই ইনস্টল করুন।</p>
+    <p class="subtitle">
+        আরও দ্রুত ও সহজ অভিজ্ঞতার জন্য Android অ্যাপটি ইনস্টল করুন।
+    </p>
 
-    <div class="countdown">
-      📲 <span id="count">10</span> সেকেন্ড পরে Play Store-এ নিয়ে যাওয়া হবে।
+    <div class="countdown-box">
+        <div class="number" id="count">10</div>
+        <div class="text">
+            সেকেন্ড পরে<br>
+            <strong>Google Play</strong>-এ নিয়ে যাওয়া হবে
+        </div>
     </div>
 
   </div>
@@ -416,76 +422,123 @@ footer{
 .popup-overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.65);
+    background:rgba(0,0,0,.72);
     display:flex;
-    align-items:center;
     justify-content:center;
-    z-index:99999;
+    align-items:center;
+    z-index:999999;
+    backdrop-filter:blur(6px);
     padding:20px;
 }
 
 .popup-card{
     position:relative;
-    background:#fff;
     width:100%;
-    max-width:340px;
-    border-radius:18px;
-    padding:25px;
+    max-width:360px;
+    background:linear-gradient(180deg,#ffffff,#f5f7fb);
+    border-radius:28px;
+    padding:28px 22px;
     text-align:center;
-    font-family:Arial,sans-serif;
-    box-shadow:0 15px 40px rgba(0,0,0,.3);
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.9);
+    animation:popup .35s ease;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:scale(.8) translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
 }
 
 .close-btn{
     position:absolute;
-    top:10px;
-    right:10px;
-    width:34px;
-    height:34px;
+    top:14px;
+    right:14px;
+    width:36px;
+    height:36px;
     border:none;
     border-radius:50%;
-    background:#f2f2f2;
-    font-size:22px;
+    background:#ececec;
+    color:#444;
+    font-size:24px;
     cursor:pointer;
+    transition:.2s;
 }
 
 .close-btn:hover{
-    background:#ddd;
+    background:#e53935;
+    color:#fff;
+    transform:rotate(90deg);
 }
 
 .app-icon{
-    width:90px;
-    height:90px;
-    border-radius:20px;
-    margin-bottom:15px;
+    width:100px;
+    height:100px;
+    border-radius:24px;
+    box-shadow:0 12px 25px rgba(0,0,0,.25);
+    margin-bottom:18px;
 }
 
-.popup-card h2{
+h2{
     margin:0;
-    font-size:22px;
+    color:#222;
+    font-size:24px;
+    font-weight:700;
 }
 
-.popup-card p{
-    color:#666;
-    margin:10px 0;
+.subtitle{
+    margin:12px 0 20px;
+    color:#555;
+    line-height:1.6;
+    font-size:15px;
 }
 
-.countdown{
-    margin-top:18px;
-    font-size:17px;
+.countdown-box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    background:#0F9D58;
+    color:#fff;
+    padding:15px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(15,157,88,.35);
+}
+
+.number{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#fff;
+    color:#0F9D58;
+    font-size:28px;
     font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:inset 0 2px 8px rgba(0,0,0,.15);
+}
+
+.text{
+    text-align:left;
+    font-size:15px;
+    line-height:1.5;
 }
 </style>
 
 <script>
-const playStore = "https://play.google.com/store/apps/details?id=com.digital.tasbihcounter";
+const playStore="https://play.google.com/store/apps/details?id=com.digital.tasbihcounter";
 
-let seconds = 10;
-let cancelled = false;
+let seconds=10;
+let cancelled=false;
 
-const counter = document.getElementById("count");
-
-const timer = setInterval(() => {
+const timer=setInterval(()=>{
 
     if(cancelled){
         clearInterval(timer);
@@ -493,31 +546,30 @@ const timer = setInterval(() => {
     }
 
     seconds--;
-    counter.textContent = seconds;
+    document.getElementById("count").textContent=seconds;
 
-    if(seconds <= 0){
+    if(seconds<=0){
         clearInterval(timer);
-        window.location.href = playStore;
+        location.href=playStore;
     }
 
 },1000);
 
-document.getElementById("closePopup").onclick = function () {
-    cancelled = true;
+document.getElementById("closePopup").onclick=()=>{
+    cancelled=true;
     clearInterval(timer);
-    document.getElementById("playPopup").style.display = "none";
+    document.getElementById("playPopup").style.display="none";
 };
 
-document.getElementById("playPopup").onclick = function(e){
-    if(e.target === this){
-        cancelled = true;
+document.getElementById("playPopup").onclick=(e)=>{
+    if(e.target.id==="playPopup"){
+        cancelled=true;
         clearInterval(timer);
-        this.style.display = "none";
+        document.getElementById("playPopup").style.display="none";
     }
 };
 </script>
 ```
-
 
 <!-- NAV -->
 <nav>
